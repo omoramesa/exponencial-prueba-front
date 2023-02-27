@@ -4,21 +4,21 @@ import Modal from "react-bootstrap/Modal";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { Container } from 'react-bootstrap';
-import { AddStore } from "./AddStore";
+import { AddProduct } from "./AddProduct";
 
 
-export const StoreList = () => {
+export const ProductList = () => {
     const [show, setShow] = useState(false);
 
-    const url = 'http://localhost:8090/exponencial-prueba/api/stores/all'
-    const [stores, setStores] = useState()
+    const url = 'http://localhost:8090/exponencial-prueba/api/products/all'
+    const [products, setProducts] = useState()
 
     
     const fetchApi = async () => {
         const response = await fetch(url)
         console.log(response.statusText)
         const responseJSON = await response.json()
-        setStores(responseJSON)
+        setProducts(responseJSON)
         console.log(responseJSON)
     }
 
@@ -26,7 +26,6 @@ export const StoreList = () => {
         	fetchApi()
     },[])
 
-    
 
 
 
@@ -37,13 +36,13 @@ export const StoreList = () => {
 
             <Table striped bordered hover>
             <tbody>
-               {stores.map((stores) => ( 
-                        <tr key={stores.storeId}>
-                            <td>{stores.storeId}</td>                    
-                            <td>{stores.name}</td>
+               {products.map((products) => ( 
+                        <tr key={products.productId}>
+                            <td>{products.productId}</td>                    
+                            <td>{products.name}</td>
                             <td><button  className="btn btn-success"><i className="fa-solid fa-trash"></i>Editar</button></td>
                             <td><button  className="btn btn-danger"><i className="fa-solid fa-trash"></i>Eliminar</button></td>
-                            <td><button  className="btn btn-link"><i className="fa-solid fa-trash"></i>Ver productos</button></td>
+                            
                         </tr>
                     ))}
            </tbody>
@@ -57,13 +56,14 @@ export const StoreList = () => {
             >
                 <Modal.Header closeButton>
                     <Modal.Title id="example-custom-modal-styling-title">
-                        <h2>Registro de Tiendas</h2>
+                        <h2>Registro de Productos</h2>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <AddStore />
+                    <AddProduct />
                 </Modal.Body>
             </Modal>
         </Container>
     )
 }
+

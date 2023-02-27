@@ -1,15 +1,24 @@
-import { React, useState } from "react";
+import React, { useEffect, useState } from "react";
+//import { React, useState } from "react";
 import { Container } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
+//import { BsPlusCircleFill } from "react-icons/bs";
+import Table from "react-bootstrap/Table";
+
+
 
 
 export function AddStore() {
-  const [description, setDescription] = useState("");
-  const [amount, setAmount] = useState(0);
-  const [date, setDate] = useState("");
-  const [typeT, setTypeT] = useState("");
+  const [storeName, setStoreName] = useState("");
+  const urlProducts = 'http://localhost:8090/exponencial-prueba/api/products/all'
+
+  const [products, setProducts] = useState()
+
+  // const [amount, setAmount] = useState(0);
+  // const [date, setDate] = useState("");
+  // const [typeT, setTypeT] = useState("");
 
   const [show, setShow] = useState(false);
 
@@ -18,55 +27,54 @@ export function AddStore() {
 
   const navigate = useNavigate();
 
-  const addTrans = () => {
+  const addStore = () => {
     navigate("/");
   };
 
+  const fetchApi = async () => {
+  const response = await fetch(urlProducts)
+  console.log(response.statusText)
+  const responseJSON = await response.json()
+  setProducts(responseJSON)
+  console.log(responseJSON)
+ }
+
+ useEffect (() =>{
+       fetchApi()
+ },[])
+
   return (
     <Container>
-      <Form onSubmit={addTrans}>
+      <Form onSubmit={addStore}>
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Descripción</Form.Label>
+          <Form.Label>Nombre</Form.Label>
           <Form.Control
-            name="description"
+            name="storeName"
             type="text"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Fecha</Form.Label>
-          <Form.Control
-            name="trip-start"
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
+            value={storeName}
+            onChange={(e) => setStoreName(e.target.value)}
           />
 
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Ingreso</Form.Label> {""} 
-          <input type="radio" name="typeT" value={1}  onChange={(e) => setTypeT(e.target.value)}></input> {""}
-          <Form.Label>Gasto</Form.Label> {""}
-          <input type="radio" name="typeT" value={2}  onChange={(e) => setTypeT(e.target.value)}></input>
-        </Form.Group>
+            <Table striped bordered hover>
+              <tbody>
+               {products.map((products) => ( 
+                        <tr key={products.productId}>
+                            <td>{products.productId}</td>                    
+                            <td>{products.name}</td>
+                            <td><button  className="btn btn-success"><i className="fa-solid fa-trash"></i>Seleccionar</button></td>
+                        </tr>
+                    ))}
+           </tbody>
+            </Table>
 
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Valor</Form.Label>
-          <Form.Control
-            name="amount"
-            type="number"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-          />
         </Form.Group>
-        <Button variant="primary" type="submit" onClick={handleClose} >
-          Registrar
-        </Button>{" "}
-        <Button variant="primary" type="submit">
-          Cancelar
-        </Button>
-      </Form>
+          <Button variant="primary" type="submit" onClick={handleClose} >
+            Registrar
+          </Button>{" "}
+          <Button variant="primary" type="submit">
+            Cancelar
+          </Button>
+        </Form>
     </Container>
   );
 }

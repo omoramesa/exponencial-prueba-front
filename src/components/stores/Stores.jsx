@@ -7,13 +7,12 @@ export function Stores() {
     <Container className="store_container">
       <header>
         <img
-          src="https://firebasestorage.googleapis.com/v0/b/prueba-tecnica-makaia.appspot.com/o/images%2FprismaFinal.png?alt=media&token=48c3b15d-e7e1-4b6e-b842-b40369b21595"
-          alt="logo prisma"
+          src="TiendaBanner.png"
         />
         
         <hr />
       </header>
-        <h1>Bienvenido </h1>
+        <h1>Bienvenido (Administración de Tiendas)</h1>
         
         { <StoreList/> }
         
